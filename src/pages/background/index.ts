@@ -1,3 +1,3 @@
-import { sendAuditionToSpreadsheet } from "./authorize";
+import { sendAuditionToSpreadsheet } from "./googleapi";
 
 browser.runtime.onMessage.addListener(sendAuditionToSpreadsheet);
