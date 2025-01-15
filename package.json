@@ -17,6 +17,8 @@
   },
   "type": "module",
   "dependencies": {
+    "google-auth-library": "^9.15.0",
+    "google-spreadsheet": "^4.1.4",
     "jquery": "^3.7.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -25,13 +27,13 @@
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.28",
     "@types/chrome": "^0.0.287",
+    "@types/firefox-webext-browser": "^120.0.4",
     "@types/jquery": "^3.5.32",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/webextension-polyfill": "^0.12.1",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@types/firefox-webext-browser": "^120.0.4",
     "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",

@@ -41,11 +41,8 @@ $(document).on('click', '#sendToSheets', () => {
             const br = "<br>"
             const firstBreak = html.indexOf(br);
             let substring = html.slice(firstBreak + br.length);
-            console.log({ substring })
             const secondBreak = html.indexOf(br)
             substring = substring.slice(0, secondBreak - 1)
-            console.log("Third")
-            console.log({ substring })
             return substring
         }
 
@@ -63,11 +60,11 @@ $(document).on('click', '#sendToSheets', () => {
         }
 
         const sendMessage = browser.runtime.sendMessage({ audition: audition });
-        function handleResponse(message) {
+        function handleResponse(message: any) {
             console.log(`Message from the background script: ${message.response}`);
         }
 
-        function handleError(error) {
+        function handleError(error: any) {
             console.log(`Error: ${error}`);
         }
         sendMessage.then(handleResponse, handleError)
