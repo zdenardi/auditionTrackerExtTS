@@ -29,11 +29,10 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.actorsaccess.com/*"
+        "*://*.actorsaccess.com/projects/*"
       ],
       "js": [
-        "./src/pages/content/jquery-3.7.1.min.js",
-        "./src/pages/content/aaplus.js"
+        "./src/pages/content/aaplus.ts"
       ]
     },
     {
