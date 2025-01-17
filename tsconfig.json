@@ -8,11 +8,7 @@
       "@types/webextension-polyfill",
       "@types/firefox-webext-browser"
     ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -27,18 +23,10 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@locales/*": [
-        "src/locales/*"
-      ],
-      "@pages/*": [
-        "src/pages/*"
-      ]
+      "@src/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@locales/*": ["src/locales/*"],
+      "@pages/*": ["src/pages/*"]
     }
   },
   "include": [
@@ -47,5 +35,5 @@
     "vite.config.base.ts",
     "vite.config.chrome.ts",
     "vite.config.firefox.ts"
-  ],
+  ]
 }

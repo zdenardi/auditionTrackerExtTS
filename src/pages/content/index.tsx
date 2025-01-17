@@ -1,7 +1,7 @@
 // Keeping this for now as I might want to refer to it later
 
 // import { createRoot } from 'react-dom/client';
-// import './style.css' 
+// import './style.css'
 // const div = document.createElement('div');
 // div.id = '__root';
 // document.body.appendChild(div);
