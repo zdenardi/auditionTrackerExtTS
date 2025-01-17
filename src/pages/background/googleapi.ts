@@ -17,11 +17,11 @@ export async function sendAuditionToSpreadsheet(request: unknown, sender: browse
     const customRequest = request as AABrowserReq
     if (customRequest.audition) {
         const audition = customRequest.audition;
+
         getAccessToken(AUTH_URL).then(async (token) => {
             async function getWorkingSheet(token: string): Promise<GoogleSpreadsheet> {
                 let workingSpreadsheet: GoogleSpreadsheet
                 const fileExists = await doesFileExists(SHEET_NAME, token as string)
-
                 if (fileExists.found) {
                     workingSpreadsheet = getGoogleSheet(fileExists.id as string, token as string)
                 } else {
@@ -44,23 +44,15 @@ export async function sendAuditionToSpreadsheet(request: unknown, sender: browse
                         console.log(error)
                     }
                 }
-
                 return workingSpreadsheet
             }
             const workingSpreadsheet = await getWorkingSheet(token as string)
-            console.log("second")
-            const range = 'Sheet1';
-            const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${workingSpreadsheet.spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
             const arrayOfValues = Object.values(audition)
-            const data = {
-                values: [arrayOfValues]
-            }
             const headerRow = ['orderNo', 'Date', 'Role', 'Project Name', 'Casting Director', 'Project Type', 'Status']
-
             await workingSpreadsheet.loadInfo()
             const auditionsSheet = workingSpreadsheet.sheetsByTitle['Auditions'];
             await auditionsSheet.loadHeaderRow()
-            const lastUpdatedFunction = 'IF(COUNTA($A$1:$G$1)=0,"",iferror($A$1:$G$1+"x",today()))'
+
             const sheetHeaders = auditionsSheet.headerValues
             if (auditionsSheet.headerValues != headerRow) {
                 await auditionsSheet.setHeaderRow(headerRow)
@@ -70,7 +62,6 @@ export async function sendAuditionToSpreadsheet(request: unknown, sender: browse
             auditionsSheet.addRow(arrayOfValues)
         })
     }
-
     return Promise.resolve({ response: "response from background script" });
 }
 
