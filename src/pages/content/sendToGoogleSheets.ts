@@ -1,4 +1,6 @@
 import $ from "jquery";
+import { SuccessToast } from "./components/toastMessages";
+
 const AA_MAIN_URL = "https://actorsaccess.com";
 const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
