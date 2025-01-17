@@ -1,7 +1,6 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { getAccessToken } from "./authorize";
-import { SHEET_NAME, Audition, AABrowserReq, IFoundFile } from '.';
-import { resolve } from 'path';
+import { SHEET_NAME, Audition, AABrowserReq, IFoundFile, TEMPLATE_ID } from '.';
 
 const CLIENT_ID = '635620722112-iokrike3aui2lacke3ncoulooforlm81.apps.googleusercontent.com'
 const SPREADSHEETS_URL = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.readonly"
@@ -18,35 +17,51 @@ export async function sendAuditionToSpreadsheet(request: unknown, sender: browse
     const customRequest = request as AABrowserReq
     if (customRequest.audition) {
         const audition = customRequest.audition;
-        getAccessToken(AUTH_URL).then(async (token) => {
-            let spreadsheetId = ''
-            const fileExists = await doesFileExists(SHEET_NAME)
-            if (fileExists.found) {
-                spreadsheetId = fileExists.id as string
-            }
-            const range = 'Sheet1';
-            const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
-            const arrayOfValues = Object.values(audition)
-            const data = {
-                values: [arrayOfValues]
-            }
-            const headerRow = ['orderNo', 'Date', 'Role', 'Project Name', 'Casting Director', 'Project Type', 'Status']
 
-            const doc = new GoogleSpreadsheet(spreadsheetId, { token: token as string })
-            await doc.loadInfo()
-            await doc.updateProperties({ title: SHEET_NAME })
-            const sheet1 = doc.sheetsByIndex[0];
-            await sheet1.loadHeaderRow()
-            const sheetHeaders = sheet1.headerValues
-            if (sheet1.headerValues != headerRow) {
-                await sheet1.setHeaderRow(headerRow)
+        getAccessToken(AUTH_URL).then(async (token) => {
+            async function getWorkingSheet(token: string): Promise<GoogleSpreadsheet> {
+                let workingSpreadsheet: GoogleSpreadsheet
+                const fileExists = await doesFileExists(SHEET_NAME, token as string)
+                if (fileExists.found) {
+                    workingSpreadsheet = getGoogleSheet(fileExists.id as string, token as string)
+                } else {
+                    const templateDoc = getGoogleSheet(TEMPLATE_ID, token as string)
+                    await templateDoc.loadInfo();
+                    // Copy sheet information from Template ID
+                    const auditionTrackersheet = templateDoc.sheetsByIndex[0];
+                    // Create New Spreadsheet
+                    workingSpreadsheet = await GoogleSpreadsheet.createNewSpreadsheetDocument(
+                        { token: token as string }, { title: SHEET_NAME }
+                    )
+                    // copy Sheet to new Doc
+                    try {
+                        await auditionTrackersheet.copyToSpreadsheet(workingSpreadsheet.spreadsheetId)
+                        workingSpreadsheet.loadInfo();
+                        await workingSpreadsheet.sheetsByIndex[0].delete()
+                        const sheet = workingSpreadsheet.sheetsByTitle['Copy of Sheet1'];
+                        await sheet.updateProperties({ title: 'Auditions' })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                return workingSpreadsheet
+            }
+            const workingSpreadsheet = await getWorkingSheet(token as string)
+            const arrayOfValues = Object.values(audition)
+            const headerRow = ['orderNo', 'Date', 'Role', 'Project Name', 'Casting Director', 'Project Type', 'Status']
+            await workingSpreadsheet.loadInfo()
+            const auditionsSheet = workingSpreadsheet.sheetsByTitle['Auditions'];
+            await auditionsSheet.loadHeaderRow()
+
+            const sheetHeaders = auditionsSheet.headerValues
+            if (auditionsSheet.headerValues != headerRow) {
+                await auditionsSheet.setHeaderRow(headerRow)
             } else {
                 console.log("Header Already Set!")
             }
-            sheet1.addRow(arrayOfValues)
+            auditionsSheet.addRow(arrayOfValues)
         })
     }
-
     return Promise.resolve({ response: "response from background script" });
 }
 
@@ -71,5 +86,8 @@ export async function doesFileExists(name: string, token: string): Promise<IFoun
     }
     return returnMessage
 
+}
 
+function getGoogleSheet(id: string, token: string) {
+    return new GoogleSpreadsheet(id, { token: token as string })
 }

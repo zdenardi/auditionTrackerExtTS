@@ -52,6 +52,8 @@ $(document).on('click', '#sendToSheets', () => {
         projectType = getProjectType(leftTable.html())
         casting = getPersonFromHTML(rightTable.html(), "Casting Director:")
     }).then(() => {
+        const lastUpdatedFunction = '=IF(COUNTA($A$1:$G$1)=0,"",iferror($A$1:$G$1+"x",today()))'
+
         const audition = {
             orderNo: "1",
             submittedDate: new Date().toLocaleDateString(),
@@ -59,7 +61,8 @@ $(document).on('click', '#sendToSheets', () => {
             projectName: title,
             castingDirector: casting,
             projectType,
-            status: "Submitted"
+            status: "Submitted",
+            lastUpdated: lastUpdatedFunction
         }
 
         const sendMessage = browser.runtime.sendMessage({ audition: audition });
