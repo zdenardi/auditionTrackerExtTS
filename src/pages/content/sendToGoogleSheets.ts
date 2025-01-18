@@ -1,6 +1,4 @@
 import $ from "jquery";
-import { SuccessToast } from "./components/toastMessages";
-
 const AA_MAIN_URL = "https://actorsaccess.com";
 const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
@@ -42,7 +40,7 @@ export function getProjectType(html: string) {
   return substring.slice(0, secondBreak);
 }
 
-$(document).on("click", "#sendToSheets", () => {
+$(document).on("click", "#sendToSheets", async () => {
   const roleField = "Role:";
   const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
   const title = $(".cart_role_breakdown").text();
@@ -83,5 +81,6 @@ $(document).on("click", "#sendToSheets", () => {
       console.log(`Error: ${error}`);
     }
     sendMessage.then(handleResponse, handleError);
+    const rootDiv = $("#toastContainer");
   });
 });

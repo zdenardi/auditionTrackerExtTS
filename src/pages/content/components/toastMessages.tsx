@@ -1,6 +1,19 @@
 import React from "react";
+type ToastProps = {
+  message: string;
+};
 
-export const SuccessToast = (message: string) => {
+export const SuccessToast = (props: ToastProps) => {
+  function handleMessage(
+    request: unknown,
+    sender: browser.runtime.MessageSender,
+    sendResponse: (message: unknown) => void,
+  ) {
+    console.log("This is from the toast message");
+  }
+  browser.runtime.onMessage.addListener(handleMessage);
+
+  const { message } = props;
   return (
     <div
       className="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"

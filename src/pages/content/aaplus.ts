@@ -1,13 +1,6 @@
 import $ from "jquery";
 
-function removeAds() {
-  const topAd = $("#ad_space");
-  const sideRailAd = $("#actorsaccess_siderail_right");
-  topAd.remove();
-  sideRailAd.remove();
-}
-
-removeAds();
+console.log("Add filters");
 const filterList = $("#exclude_real_people").parent();
 if (filterList) {
   const noStudentFilmCheckBox = $("#no-student-films");

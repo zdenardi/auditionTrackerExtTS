@@ -1,6 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { getAccessToken } from "./authorize";
 import { SHEET_NAME, Audition, AABrowserReq, IFoundFile, TEMPLATE_ID } from ".";
+import $ from "jquery";
 
 const CLIENT_ID =
   "635620722112-iokrike3aui2lacke3ncoulooforlm81.apps.googleusercontent.com";
@@ -80,9 +81,10 @@ export async function sendAuditionToSpreadsheet(
       } else {
         console.log("Header Already Set!");
       }
-      auditionsSheet.addRow(arrayOfValues);
+      await auditionsSheet.addRow(arrayOfValues);
     });
   }
+
   return Promise.resolve({ response: "response from background script" });
 }
 
