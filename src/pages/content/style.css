@@ -52,3 +52,7 @@ div[name="lineitems"] {
 .item_container.editable {
   min-height: 7rem;
 }
+span.underline-text {
+  font-style: italic;
+  text-decoration: underline;
+}

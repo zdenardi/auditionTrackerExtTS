@@ -33,8 +33,7 @@ export function getProjectType(html: string) {
   const secondBreak = substring.indexOf("<");
   return substring.slice(0, secondBreak);
 }
-
-submitButton.text("Submit and Track");
+submitButton.html("Submit <span class=underline-text> and Track </span");
 submitForm.one("submit", async (e) => {
   e.preventDefault();
   console.log("submit");
