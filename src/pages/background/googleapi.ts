@@ -80,9 +80,14 @@ export async function sendAuditionToSpreadsheet(
       } else {
         console.log("Header Already Set!");
       }
-      auditionsSheet.addRow(arrayOfValues);
+      await auditionsSheet.addRow(arrayOfValues);
     });
   }
+  const message = {
+    type: "toast",
+    success: true,
+  };
+  browser.tabs.sendMessage(sender?.tab?.id as number, message);
   return Promise.resolve({ response: "response from background script" });
 }
 

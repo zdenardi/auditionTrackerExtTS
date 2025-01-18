@@ -40,7 +40,7 @@ export function getProjectType(html: string) {
   return substring.slice(0, secondBreak);
 }
 
-$(document).on("click", "#sendToSheets", () => {
+$(document).on("click", "#sendToSheets", async () => {
   const roleField = "Role:";
   const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
   const title = $(".cart_role_breakdown").text();
@@ -81,5 +81,6 @@ $(document).on("click", "#sendToSheets", () => {
       console.log(`Error: ${error}`);
     }
     sendMessage.then(handleResponse, handleError);
+    const rootDiv = $("#toastContainer");
   });
 });
