@@ -36,7 +36,6 @@ export function getProjectType(html: string) {
 submitButton.html("Submit <span class=underline-text> and Track </span");
 submitForm.one("submit", async (e) => {
   e.preventDefault();
-  console.log("submit");
   const roleField = "Role:";
   const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
   const title = $(".cart_role_breakdown").text();
