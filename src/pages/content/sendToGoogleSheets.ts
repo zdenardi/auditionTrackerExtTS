@@ -36,48 +36,51 @@ export function getProjectType(html: string) {
 submitButton.html("Submit <span class=underline-text> and Track </span");
 submitForm.one("submit", async (e) => {
   e.preventDefault();
-  const roleField = "Role:";
-  const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
-  const title = $(".cart_role_breakdown").text();
+  const itemContainers = $(".asset_group").toArray();
+  itemContainers.forEach(async (container) => {
+    let casting = "Unknown";
+    let projectType = "Unknown";
+    const breakdownCell = $(container).find(".roleItem").html();
+    const roleField = "Role:";
+    const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
+    const title = $(container).find(".cart_role_breakdown").text();
+    const req = $.get(projectURL, (html) => {
+      const leftTable = $(html).find(
+        "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p",
+      );
+      const rightTable = $(html).find(
+        "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3) > p:nth-child(2)",
+      );
 
-  let casting = "UNKNOWN";
-  let projectType = "UNKKNOWN";
-  const req = $.get(projectURL, (html) => {
-    const leftTable = $(html).find(
-      "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p",
-    );
-    const rightTable = $(html).find(
-      "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3) > p:nth-child(2)",
-    );
+      projectType = getProjectType(leftTable.html());
+      casting = getPersonFromHTML(rightTable.html(), "Casting Director:");
+    }).then(() => {
+      const lastUpdatedFunction =
+        '=IF(COUNTA($A$1:$G$1)=0,"",iferror($A$1:$G$1+"x",today()))';
 
-    projectType = getProjectType(leftTable.html());
-    casting = getPersonFromHTML(rightTable.html(), "Casting Director:");
-  }).then(() => {
-    const lastUpdatedFunction =
-      '=IF(COUNTA($A$1:$G$1)=0,"",iferror($A$1:$G$1+"x",today()))';
+      const audition = {
+        orderNo: "1",
+        submittedDate: new Date().toLocaleDateString(),
+        role,
+        projectName: title,
+        castingDirector: casting,
+        projectType,
+        status: "Submitted",
+        lastUpdated: lastUpdatedFunction,
+      };
 
-    const audition = {
-      orderNo: "1",
-      submittedDate: new Date().toLocaleDateString(),
-      role,
-      projectName: title,
-      castingDirector: casting,
-      projectType,
-      status: "Submitted",
-      lastUpdated: lastUpdatedFunction,
-    };
+      const sendMessage = browser.runtime.sendMessage({ audition: audition });
+      function handleResponse(message: any) {
+        console.log(`Message from the background script: ${message.response}`);
+      }
 
-    const sendMessage = browser.runtime.sendMessage({ audition: audition });
-    function handleResponse(message: any) {
-      console.log(`Message from the background script: ${message.response}`);
-    }
-
-    function handleError(error: any) {
-      console.log(`Error: ${error}`);
-    }
-    sendMessage.then(handleResponse, handleError);
-    return true;
+      function handleError(error: any) {
+        console.log(`Error: ${error}`);
+      }
+      sendMessage.then(handleResponse, handleError);
+      return true;
+    });
+    await req;
+    submitForm.trigger("submit");
   });
-  await req;
-  submitForm.trigger("submit");
 });
