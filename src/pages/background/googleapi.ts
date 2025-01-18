@@ -1,7 +1,6 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { getAccessToken } from "./authorize";
 import { SHEET_NAME, Audition, AABrowserReq, IFoundFile, TEMPLATE_ID } from ".";
-import $ from "jquery";
 
 const CLIENT_ID =
   "635620722112-iokrike3aui2lacke3ncoulooforlm81.apps.googleusercontent.com";
@@ -84,7 +83,11 @@ export async function sendAuditionToSpreadsheet(
       await auditionsSheet.addRow(arrayOfValues);
     });
   }
-
+  const message = {
+    type: "toast",
+    success: true,
+  };
+  browser.tabs.sendMessage(sender?.tab?.id as number, message);
   return Promise.resolve({ response: "response from background script" });
 }
 

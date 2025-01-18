@@ -24,6 +24,10 @@
       "matches": ["*://actorsaccess.com/*"],
       "js": ["./src/pages/content/removeads.ts"]
     },
+      {
+      "matches": ["*://actorsaccess.com/*"],
+      "js": ["./src/pages/content/index.tsx"]
+    },
      {
       "matches": ["*://actorsaccess.com/projects/*"],
       "js": ["./src/pages/content/aaplus.ts"]

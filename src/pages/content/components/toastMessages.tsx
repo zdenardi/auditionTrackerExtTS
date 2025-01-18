@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 type ToastProps = {
   message: string;
 };
-
+export interface ToastCommandReq {
+  type: string;
+  success: boolean;
+}
 export const SuccessToast = (props: ToastProps) => {
+  const [show, setShow] = useState(false);
+
   function handleMessage(
     request: unknown,
     sender: browser.runtime.MessageSender,
     sendResponse: (message: unknown) => void,
   ) {
-    console.log("This is from the toast message");
+    const customRequest = request as ToastCommandReq;
+    console.log(request);
+    if (customRequest.type === "toast" && customRequest.success) setShow(true);
+    setInterval(() => {
+      setShow(false);
+    }, 3000);
   }
   browser.runtime.onMessage.addListener(handleMessage);
 
   const { message } = props;
+  if (!show) {
+    return <></>;
+  }
   return (
     <div
       className="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
