@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 type ToastProps = {
   message: string;
 };

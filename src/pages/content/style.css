@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.your-class {
-  color: aliceblue;
+.aa-footer-right-container a{
+  width: 20px;
+}
+
+.aa-header-input-field{
+  color:black
 }
