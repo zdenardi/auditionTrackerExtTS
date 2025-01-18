@@ -27,7 +27,8 @@ h1 {
   display: flex;
   gap: 1rem;
 }
-.bottom-buttons > .btn-sq {
+
+.bottom_buttons > .btn-mini {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
@@ -43,7 +44,7 @@ h1 {
   align-items: center;
 }
 
-.div[name="lineitems"] {
+div[name="lineitems"] {
   width: 75%;
   margin: 0 auto;
 }
