@@ -1,10 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.aa-footer-right-container a{
+
+/* Fixing some weird AA stuff  */
+.aa-footer-right-container a {
   width: 20px;
 }
 
-.aa-header-input-field{
-  color:black
+.aa-header-input-field {
+  color: black;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  padding-bottom: 1px;
+  color: #bc0000;
+}
+
+.bottom-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.top_buttons {
+  display: flex;
+  gap: 1rem;
+}
+.bottom-buttons > .btn-sq {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+#add_item_btn {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+#add_item_btn img {
+  height: 12px;
+  align-items: center;
+}
+
+.div[name="lineitems"] {
+  width: 75%;
+  margin: 0 auto;
 }
