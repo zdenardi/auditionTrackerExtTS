@@ -1,7 +1,8 @@
 import $ from "jquery";
 
 export function removeAds() {
-  const slateShotAd = $("google_image_div");
+  const slateShotAd = $("#google_image_div");
+  const skyskraper = $(".dashboard-skyscraper");
   const topAd = $("#ad_space");
   const googleAd = $("#actorsaccess_leaderboard_ATF_members");
   const topClass = $("adLeaderboard");
@@ -11,6 +12,7 @@ export function removeAds() {
   googleAd.remove();
   slateShotAd.remove();
   topClass.remove();
+  skyskraper.remove();
 }
 
 removeAds();
