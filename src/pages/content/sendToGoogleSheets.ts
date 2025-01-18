@@ -1,16 +1,10 @@
 import $ from "jquery";
+
 const AA_MAIN_URL = "https://actorsaccess.com";
 const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
-// Just for testing purposes
-const mainDiv = $("#mainContent");
-const button = $("<button>")
-  .text("Send to google sheets!")
-  .attr("id", "sendToSheets");
-if (!$("#sendToSheets").length) {
-  mainDiv.prepend(button);
-}
-
+const submitButton = $("#cartsubmit");
+const submitForm = $("form.submit-container");
 export function parseEntryFromHtml(
   html: string,
   tag: string,
@@ -40,14 +34,17 @@ export function getProjectType(html: string) {
   return substring.slice(0, secondBreak);
 }
 
-$(document).on("click", "#sendToSheets", async () => {
+submitButton.text("Submit and Track");
+submitForm.one("submit", async (e) => {
+  e.preventDefault();
+  console.log("submit");
   const roleField = "Role:";
   const role = parseEntryFromHtml(breakdownCell, "</strong>", roleField);
   const title = $(".cart_role_breakdown").text();
 
   let casting = "UNKNOWN";
   let projectType = "UNKKNOWN";
-  $.get(projectURL, (html) => {
+  const req = $.get(projectURL, (html) => {
     const leftTable = $(html).find(
       "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p",
     );
@@ -81,6 +78,8 @@ $(document).on("click", "#sendToSheets", async () => {
       console.log(`Error: ${error}`);
     }
     sendMessage.then(handleResponse, handleError);
-    const rootDiv = $("#toastContainer");
+    return true;
   });
+  await req;
+  submitForm.trigger("submit");
 });

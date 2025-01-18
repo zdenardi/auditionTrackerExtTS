@@ -81,13 +81,14 @@ export async function sendAuditionToSpreadsheet(
         console.log("Header Already Set!");
       }
       await auditionsSheet.addRow(arrayOfValues);
+      const message = {
+        type: "toast",
+        success: true,
+      };
+      browser.tabs.sendMessage(sender?.tab?.id as number, message);
     });
   }
-  const message = {
-    type: "toast",
-    success: true,
-  };
-  browser.tabs.sendMessage(sender?.tab?.id as number, message);
+
   return Promise.resolve({ response: "response from background script" });
 }
 
