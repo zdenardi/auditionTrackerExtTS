@@ -66,6 +66,9 @@ export async function sendAuditionToSpreadsheet(
       "Casting Director",
       "Project Type",
       "Status",
+      "Submitter",
+      "Source",
+      "Last Updated",
     ];
     await workingSpreadsheet.loadInfo();
     const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];

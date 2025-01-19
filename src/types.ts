@@ -5,6 +5,8 @@ export interface Audition {
   submittedDate: string;
   role: string;
   castingDirector: string;
+  submitter: string;
+  source: string;
   projectType: string;
   status: string;
   lastUpdated: string;
