@@ -1,4 +1,6 @@
 import $ from "jquery";
+import { Audition, IDataSend } from "@src/types";
+import browser from "webextension-polyfill";
 
 export function getPersonFromHTML(html: string, word: string): string {
   const wordStart = html.indexOf(word);
@@ -27,4 +29,14 @@ export function parseEntryFromHtml(
   const brTagIndex = subString.indexOf("<br>", word.length);
   subString = subString.slice(0, brTagIndex);
   return subString.slice(word.length + tag.length + 1).trim();
+}
+
+export async function sendAudition(audition: Audition) {
+  const message: IDataSend = {
+    type: "data",
+    category: "audition",
+    success: true,
+    data: audition,
+  };
+  browser.runtime.sendMessage(message);
 }

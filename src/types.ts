@@ -22,3 +22,7 @@ export interface ICommandReq {
   category: string;
   success: boolean;
 }
+
+export interface IDataSend extends ICommandReq {
+  data: Audition;
+}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AUDITION_SELECT } from "@src/constants";
 import { ICommandReq } from "@src/types";
 export const TypeForm = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [selectValue, setSelectValue] = useState(AUDITION_SELECT[0]);
 
   function handleMessage(

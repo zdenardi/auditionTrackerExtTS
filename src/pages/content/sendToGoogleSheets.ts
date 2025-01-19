@@ -3,6 +3,7 @@ import {
   getPersonFromHTML,
   getProjectType,
   parseEntryFromHtml,
+  sendAudition,
 } from "./helperFunctions";
 import { LAST_UPDATED_FN } from "@src/constants";
 
@@ -11,6 +12,14 @@ const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
 const submitButton = $("#cartsubmit");
 const submitForm = $("form.submit-container");
+
+// const mainDev = $("#mainContent");
+// const button = $("<button>").text("Test Button").attr("id", "test-button");
+// const testButton = $("#test-button");
+// if (testButton.length === 0) {
+//   console.log("make button");
+//   mainDev.append(button);
+// }
 
 submitButton.html("Submit <span class=underline-text> and Track </span");
 submitForm.one("submit", async (e) => {
@@ -45,7 +54,6 @@ submitForm.one("submit", async (e) => {
         lastUpdated: LAST_UPDATED_FN,
       };
 
-      const sendMessage = browser.runtime.sendMessage({ audition: audition });
       function handleResponse(message: any) {
         console.log(`Message from the background script: ${message.response}`);
       }
@@ -53,7 +61,7 @@ submitForm.one("submit", async (e) => {
       function handleError(error: any) {
         console.log(`Error: ${error}`);
       }
-      sendMessage.then(handleResponse, handleError);
+      sendAudition(audition).then(handleResponse, handleError);
       return true;
     });
     await req;

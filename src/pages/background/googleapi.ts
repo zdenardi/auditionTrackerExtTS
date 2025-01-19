@@ -1,7 +1,7 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { getAccessToken } from "./authorize";
 import { SHEET_NAME, TEMPLATE_ID } from ".";
-import { AABrowserReq, ICommandReq, IFoundFile } from "@src/types";
+import { AABrowserReq, ICommandReq, IFoundFile, IDataSend } from "@src/types";
 
 const CLIENT_ID =
   "635620722112-iokrike3aui2lacke3ncoulooforlm81.apps.googleusercontent.com";
@@ -15,81 +15,76 @@ const AUTH_URL = `https://accounts.google.com/o/oauth2/auth\
 &scope=${SPREADSHEETS_URL}`;
 
 export async function sendAuditionToSpreadsheet(
-  request: unknown,
+  request: IDataSend,
   sender: browser.runtime.MessageSender,
   sendResponse: (message: unknown) => void,
 ) {
-  const customRequest = request as AABrowserReq;
-  if (customRequest.audition) {
-    const audition = customRequest.audition;
+  const audition = request.data;
 
-    getAccessToken(AUTH_URL).then(async (token) => {
-      async function getWorkingSheet(
-        token: string,
-      ): Promise<GoogleSpreadsheet> {
-        let workingSpreadsheet: GoogleSpreadsheet;
-        const fileExists = await doesFileExists(SHEET_NAME, token as string);
-        if (fileExists.found) {
-          workingSpreadsheet = getGoogleSheet(
-            fileExists.id as string,
-            token as string,
-          );
-        } else {
-          const templateDoc = getGoogleSheet(TEMPLATE_ID, token as string);
-          await templateDoc.loadInfo();
-          // Copy sheet information from Template ID
-          const auditionTrackersheet = templateDoc.sheetsByIndex[0];
-          // Create New Spreadsheet
-          workingSpreadsheet =
-            await GoogleSpreadsheet.createNewSpreadsheetDocument(
-              { token: token as string },
-              { title: SHEET_NAME },
-            );
-          // copy Sheet to new Doc
-          try {
-            await auditionTrackersheet.copyToSpreadsheet(
-              workingSpreadsheet.spreadsheetId,
-            );
-            workingSpreadsheet.loadInfo();
-            await workingSpreadsheet.sheetsByIndex[0].delete();
-            const sheet = workingSpreadsheet.sheetsByTitle["Copy of Sheet1"];
-            await sheet.updateProperties({ title: "Auditions" });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        return workingSpreadsheet;
-      }
-      const workingSpreadsheet = await getWorkingSheet(token as string);
-      const arrayOfValues = Object.values(audition);
-      const headerRow = [
-        "orderNo",
-        "Date",
-        "Role",
-        "Project Name",
-        "Casting Director",
-        "Project Type",
-        "Status",
-      ];
-      await workingSpreadsheet.loadInfo();
-      const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
-      await auditionsSheet.loadHeaderRow();
-
-      const sheetHeaders = auditionsSheet.headerValues;
-      if (auditionsSheet.headerValues != headerRow) {
-        await auditionsSheet.setHeaderRow(headerRow);
+  getAccessToken(AUTH_URL).then(async (token) => {
+    async function getWorkingSheet(token: string): Promise<GoogleSpreadsheet> {
+      let workingSpreadsheet: GoogleSpreadsheet;
+      const fileExists = await doesFileExists(SHEET_NAME, token as string);
+      if (fileExists.found) {
+        workingSpreadsheet = getGoogleSheet(
+          fileExists.id as string,
+          token as string,
+        );
       } else {
-        console.log("Header Already Set!");
+        const templateDoc = getGoogleSheet(TEMPLATE_ID, token as string);
+        await templateDoc.loadInfo();
+        // Copy sheet information from Template ID
+        const auditionTrackersheet = templateDoc.sheetsByIndex[0];
+        // Create New Spreadsheet
+        workingSpreadsheet =
+          await GoogleSpreadsheet.createNewSpreadsheetDocument(
+            { token: token as string },
+            { title: SHEET_NAME },
+          );
+        // copy Sheet to new Doc
+        try {
+          await auditionTrackersheet.copyToSpreadsheet(
+            workingSpreadsheet.spreadsheetId,
+          );
+          workingSpreadsheet.loadInfo();
+          await workingSpreadsheet.sheetsByIndex[0].delete();
+          const sheet = workingSpreadsheet.sheetsByTitle["Copy of Sheet1"];
+          await sheet.updateProperties({ title: "Auditions" });
+        } catch (error) {
+          console.log(error);
+        }
       }
-      await auditionsSheet.addRow(arrayOfValues);
-      const message: ICommandReq = {
-        category: "toast",
-        type: "success", // This will probably be something different? Not sure what yet
-        success: true,
-      };
-      browser.tabs.sendMessage(sender?.tab?.id as number, message);
-    });
-  }
+      return workingSpreadsheet;
+    }
+    const workingSpreadsheet = await getWorkingSheet(token as string);
+    const arrayOfValues = Object.values(audition);
+    const headerRow = [
+      "orderNo",
+      "Date",
+      "Role",
+      "Project Name",
+      "Casting Director",
+      "Project Type",
+      "Status",
+    ];
+    await workingSpreadsheet.loadInfo();
+    const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
+    await auditionsSheet.loadHeaderRow();
+
+    const sheetHeaders = auditionsSheet.headerValues;
+    if (auditionsSheet.headerValues != headerRow) {
+      await auditionsSheet.setHeaderRow(headerRow);
+    } else {
+      console.log("Header Already Set!");
+    }
+    await auditionsSheet.addRow(arrayOfValues);
+    const message: ICommandReq = {
+      category: "toast",
+      type: "success", // This will probably be something different? Not sure what yet
+      success: true,
+    };
+    browser.tabs.sendMessage(sender?.tab?.id as number, message);
+  });
 
   return Promise.resolve({ response: "response from background script" });
 }

@@ -1,5 +1,19 @@
-import { sendAuditionToSpreadsheet, doesFileExists } from "./googleapi";
+import { sendAuditionToSpreadsheet } from "./googleapi";
+import { Audition, IDataSend, ICommandReq } from "@src/types";
 export const SHEET_NAME = "***Audition Tracker***";
 export const TEMPLATE_ID = "1C-lv_NFOQZ0BQnTvrBqhpCZaDDUZg_8I9zmI_e8DbYk";
 
-browser.runtime.onMessage.addListener(sendAuditionToSpreadsheet);
+function messageHandler(
+  request: unknown,
+  sender: browser.runtime.MessageSender,
+  sendResponse: (message: unknown) => void,
+) {
+  const req = request as ICommandReq;
+  switch (req.category) {
+    case "audition":
+      const auditionReq = req as IDataSend;
+      sendAuditionToSpreadsheet(auditionReq, sender, sendResponse);
+  }
+}
+
+browser.runtime.onMessage.addListener(messageHandler);
