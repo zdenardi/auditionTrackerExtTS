@@ -1,7 +1,7 @@
 // Keeping this for now as I might want to refer to it later
 
 import { createRoot } from "react-dom/client";
-import { SuccessToast } from "../content/components";
+import { SuccessToast, TypeForm } from "../content/components";
 import "./style.css";
 const div = document.createElement("div");
 div.id = "__root";
@@ -16,6 +16,7 @@ root.render(
     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
   >
     <SuccessToast message="Audition Added to Tracker!" />
+    <TypeForm />
   </div>,
 );
 
