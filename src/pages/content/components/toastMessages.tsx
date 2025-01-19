@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-
+import { ICommandReq } from "@src/types";
 type ToastProps = {
   message: string;
 };
-export interface ToastCommandReq {
-  type: string;
-  success: boolean;
-}
+
 export const SuccessToast = (props: ToastProps) => {
   const [show, setShow] = useState(false);
 
@@ -15,9 +12,10 @@ export const SuccessToast = (props: ToastProps) => {
     sender: browser.runtime.MessageSender,
     sendResponse: (message: unknown) => void,
   ) {
-    const customRequest = request as ToastCommandReq;
+    const customRequest = request as ICommandReq;
     console.log(request);
-    if (customRequest.type === "toast" && customRequest.success) setShow(true);
+    if (customRequest.category === "toast" && customRequest.success)
+      setShow(true);
     setInterval(() => {
       setShow(false);
     }, 3000);

@@ -20,21 +20,25 @@
   },
   "permissions": ["activeTab", "webRequest", "identity", "notifications"],
   "content_scripts": [
-     {
+    {
       "matches": ["*://actorsaccess.com/*"],
       "js": ["./src/pages/content/removeads.ts"]
     },
-      {
+    {
       "matches": ["*://actorsaccess.com/*"],
       "js": ["./src/pages/content/index.tsx"]
     },
-     {
+    {
       "matches": ["*://actorsaccess.com/projects/*"],
       "js": ["./src/pages/content/aaplus.ts"]
     },
     {
       "matches": ["*://*.actorsaccess.com/ucart/"],
       "js": ["./src/pages/content/sendToGoogleSheets.ts"]
+    },
+    {
+      "matches": ["*://*.actorsaccess.com/virtualaudition/*"],
+      "js": ["./src/pages/content/sendSelfTape.ts"]
     }
   ],
   "devtools_page": "src/pages/devtools/index.html",
