@@ -13,17 +13,16 @@ const breakdownCell = $(".roleItem").html();
 const submitButton = $("#cartsubmit");
 const submitForm = $("form.submit-container");
 
-const mainDev = $("#mainContent");
-const button = $("<button>").text("Test Button").attr("id", "test-button");
-const testButton = $("#test-button");
-if (testButton.length === 0) {
-  console.log("make button");
-  mainDev.append(button);
-}
+// const mainDev = $("#mainContent");
+// const button = $("<button>").text("Test Button").attr("id", "test-button");
+// const testButton = $("#test-button");
+// if (testButton.length === 0) {
+//   console.log("make button");
+//   mainDev.append(button);
+// }
 
 submitButton.html("Submit <span class=underline-text> and Track </span");
-// submitForm.one("submit", async (e) => {
-testButton.on("click", async (e) => {
+submitForm.one("submit", async (e) => {
   console.log("clicked");
   e.preventDefault();
   const itemContainers = $(".asset_group").toArray();
