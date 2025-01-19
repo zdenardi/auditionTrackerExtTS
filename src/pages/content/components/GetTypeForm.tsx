@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { AUDITION_SELECT } from "@src/constants";
-export interface ICcommandReq {
-  type: string;
-  category: string;
-  success: boolean;
-}
+import { ICommandReq } from "@src/types";
 export const TypeForm = () => {
   const [show, setShow] = useState(true);
   const [selectValue, setSelectValue] = useState(AUDITION_SELECT[0]);
@@ -14,7 +10,7 @@ export const TypeForm = () => {
     sender: browser.runtime.MessageSender,
     sendResponse: (message: unknown) => void,
   ) {
-    const customRequest = request as ICcommandReq;
+    const customRequest = request as ICommandReq;
     if (customRequest.category === "form") setShow(true);
   }
   function handleChange(e: React.ChangeEvent<HTMLFormElement>) {

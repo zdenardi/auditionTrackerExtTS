@@ -16,3 +16,9 @@ export interface IFoundFile {
   id?: string;
   found: boolean;
 }
+
+export interface ICommandReq {
+  type: string;
+  category: string;
+  success: boolean;
+}
