@@ -66,6 +66,6 @@ submitForm.one("submit", async (e) => {
       return true;
     });
     await req;
-    // submitForm.trigger("submit");
+    submitForm.trigger("submit");
   });
 });
