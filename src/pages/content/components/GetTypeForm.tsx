@@ -6,7 +6,7 @@ export interface ICcommandReq {
   success: boolean;
 }
 export const TypeForm = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [selectValue, setSelectValue] = useState(AUDITION_SELECT[0]);
 
   function handleMessage(
@@ -15,19 +15,23 @@ export const TypeForm = () => {
     sendResponse: (message: unknown) => void,
   ) {
     const customRequest = request as ICcommandReq;
-    console.log(request);
     if (customRequest.category === "form") setShow(true);
   }
-
-  function handleChange(e) {
-    console.log(e.target.value);
+  function handleChange(e: React.ChangeEvent<HTMLFormElement>) {
     setSelectValue(e.target.value);
+  }
+  function handleSubmit(e: React.FormEventHandler<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(e);
+    console.log(selectValue);
+    setShow(false);
   }
   browser.runtime.onMessage.addListener(handleMessage);
 
   if (!show) {
     return <></>;
   }
+
   return (
     <div
       className="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
@@ -37,10 +41,12 @@ export const TypeForm = () => {
       <div className="flex p-4">
         <div className="container grid grid-rows-2 gap-2">
           <div>
-            <h2>Audition Tracker</h2>
-            <p>What type of project was this selftape for?</p>
+            <h2 className="text-xl font-bold">Audition Tracker</h2>
+            <div>
+              <p>What type of project was this selftape for?</p>
+            </div>
           </div>
-          <form className="w-full max-w-sm container">
+          <form className="w-full max-w-sm container" onSubmit={handleSubmit}>
             <div className="md:flex md:items-center mb-6 gap-2">
               <div>
                 <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -70,6 +76,11 @@ export const TypeForm = () => {
               </button>
             </div>
           </form>
+          <span>
+            <p className="text-xs italic">
+              Don't worry, you can change this in the worksheet later.
+            </p>
+          </span>
         </div>
       </div>
     </div>
