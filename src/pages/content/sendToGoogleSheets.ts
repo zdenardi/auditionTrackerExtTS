@@ -8,21 +8,26 @@ import {
 import { LAST_UPDATED_FN } from "@src/constants";
 import { Audition } from "@src/types";
 
+const TEST = false;
 const AA_MAIN_URL = "https://actorsaccess.com";
 const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
 const submitButton = $("#cartsubmit");
 const submitForm = $("form.submit-container");
+const testButton = $("#test-button");
 
-// const mainDev = $("#mainContent");
-// const button = $("<button>").text("Test Button").attr("id", "test-button");
-// const testButton = $("#test-button");
-// if (testButton.length === 0) {
-//   console.log("make button");
-//   mainDev.append(button);
-// }
+if (TEST) {
+  const mainDev = $("#mainContent");
+  const button = $("<button>").text("Test Button").attr("id", "test-button");
+  if (testButton.length === 0) {
+    console.log("make button");
+    mainDev.append(button);
+  }
+}
 
 submitButton.html("Submit <span class=underline-text> and Track </span");
+// testButton.on("click", async (e) => {
+//   console.log("Testing");
 submitForm.one("submit", async (e) => {
   e.preventDefault();
   const itemContainers = $(".asset_group").toArray();
@@ -68,6 +73,6 @@ submitForm.one("submit", async (e) => {
       return true;
     });
     await req;
-    submitForm.trigger("submit");
+    !TEST && submitForm.trigger("submit");
   });
 });
