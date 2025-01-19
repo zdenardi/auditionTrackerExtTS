@@ -4,7 +4,7 @@ import {
   getPersonFromHTML,
   parseEntryFromHtml,
   getProjectType,
-} from "../sendToGoogleSheets";
+} from "../helperFunctions";
 
 describe("Tests the scraper helper functions", () => {
   it("Gets the correct project type", () => {
