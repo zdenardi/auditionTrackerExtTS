@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { Audition, IDataSend } from "@src/types";
 import browser from "webextension-polyfill";
+
 export function getPersonFromHTML(html: string, word: string): string {
   const wordStart = html.indexOf(word);
   let subString = html.slice(wordStart);
@@ -37,6 +38,5 @@ export async function sendAudition(audition: Audition) {
     success: true,
     data: audition,
   };
-  console.log("Here two");
   browser.runtime.sendMessage(message);
 }

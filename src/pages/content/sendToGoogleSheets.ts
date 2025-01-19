@@ -23,7 +23,6 @@ const submitForm = $("form.submit-container");
 
 submitButton.html("Submit <span class=underline-text> and Track </span");
 submitForm.one("submit", async (e) => {
-  console.log("clicked");
   e.preventDefault();
   const itemContainers = $(".asset_group").toArray();
   itemContainers.forEach(async (container) => {
