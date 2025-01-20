@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { Audition, IDataSend } from "@src/types";
+import { Audition, ICommandReq, IDataSend } from "@src/types";
 import browser from "webextension-polyfill";
 
 export function getPersonFromHTML(html: string, word: string): string {
@@ -35,8 +35,15 @@ export async function sendAudition(audition: Audition) {
   const message: IDataSend = {
     type: "data",
     category: "audition",
-    success: true,
     data: audition,
+  };
+  browser.runtime.sendMessage(message);
+}
+
+export async function reqProjectType() {
+  const message: ICommandReq = {
+    type: "popup",
+    category: "projectTypeForm",
   };
   browser.runtime.sendMessage(message);
 }

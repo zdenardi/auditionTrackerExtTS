@@ -20,9 +20,8 @@ export interface IFoundFile {
 }
 
 export interface ICommandReq {
-  type: string;
   category: string;
-  success: boolean;
+  type: string;
 }
 
 export interface IDataSend extends ICommandReq {

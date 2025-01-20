@@ -11,15 +11,13 @@ export const TypeForm = () => {
     sendResponse: (message: unknown) => void,
   ) {
     const customRequest = request as ICommandReq;
-    if (customRequest.category === "form") setShow(true);
+    if (customRequest.category === "projectTypeForm") setShow(!show);
   }
   function handleChange(e: React.ChangeEvent<HTMLFormElement>) {
     setSelectValue(e.target.value);
   }
   function handleSubmit(e: React.FormEventHandler<HTMLFormElement>) {
     e.preventDefault();
-    console.log(e);
-    console.log(selectValue);
     setShow(false);
   }
   browser.runtime.onMessage.addListener(handleMessage);
@@ -52,7 +50,7 @@ export const TypeForm = () => {
               <div>
                 <select
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-state"
+                  id="project-type-select"
                   onChange={handleChange}
                 >
                   {AUDITION_SELECT.map((value, index) => (
@@ -65,6 +63,7 @@ export const TypeForm = () => {
                 </select>
               </div>
               <button
+                id="projectType-submit-btn"
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >

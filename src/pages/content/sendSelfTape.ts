@@ -1,6 +1,8 @@
 import $ from "jquery";
 import { Audition } from "@src/types";
 import { LAST_UPDATED_FN } from "@src/constants";
+import { reqProjectType, sendAudition } from "./helperFunctions";
+import { sendAuditionToSpreadsheet } from "../background/googleapi";
 
 const mainDiv = $("#mainContent");
 const button = $("<button>").text("Test Button").attr("id", "test-button");
@@ -8,13 +10,19 @@ if ($("#test-button").length != 1) {
   mainDiv.append(button);
 }
 
-$("#test-button").on("click", () => {
-  console.log("clicked");
+//Todo - Need to change to actual button that we're listening to, and
+// dont forget to e.preventDefault! Remember to call the submit button at the end of the next function
+$("#test-button").on("click", async () => {
+  reqProjectType();
+});
+
+$(document).on("click", "#projectType-submit-btn", () => {
   const cancelButton = $(".center a.button").toArray()[0];
   const auditionURL = $(cancelButton).attr("href") as string;
   // just for fiddling, make sure you change to audition url
-  const testURL = "https://actorsaccess.com/virtualaudition/?msg=32645549";
-  $.get(testURL, (html) => {
+  const type = $("#project-type-select").find(":selected").val();
+
+  $.get(auditionURL, (html) => {
     const roleName = $(html)
       .find(
         ".details > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(6) > td:nth-child(2)",
@@ -34,14 +42,17 @@ $("#test-button").on("click", () => {
       .trim();
     const audition: Audition = {
       orderNo: "1",
-      projectName,
       submittedDate: new Date().toLocaleDateString(),
+      projectName,
       role: roleName,
       castingDirector: casting,
-      projectType: "Unknown",
+      projectType: type as string,
       status: "Auditioned",
+      submitter: "Self",
+      source: "Actors Access",
       lastUpdated: LAST_UPDATED_FN,
     };
     console.log(audition);
+    sendAudition(audition);
   });
 });
