@@ -11,13 +11,10 @@ const rootContainer = document.querySelector("#__root");
 if (!rootContainer) throw new Error("Can't find Content root element");
 const root = createRoot(rootContainer);
 root.render(
-  <div
-    id="toastContainer"
-    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-  >
+  <>
     <SuccessToast message="Audition Added to Tracker!" />
     <TypeForm />
-  </div>,
+  </>,
 );
 
 try {

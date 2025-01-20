@@ -27,55 +27,57 @@ export const TypeForm = () => {
   }
 
   return (
-    <div
-      className="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
-      role="alert"
-      aria-labelledby="hs-toast-success-example-label"
-    >
-      <div className="flex p-4">
-        <div className="container grid grid-rows-2 gap-2">
-          <div>
-            <h2 className="text-xl font-bold">Audition Tracker</h2>
+    <div className="fixed mx-auto inset-x-0 bottom-20 flex flex-row justify-center items-center">
+      <div
+        className="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700 "
+        role="alert"
+        aria-labelledby="hs-toast-success-example-label"
+      >
+        <div className="flex p-4">
+          <div className="container grid grid-rows-2 gap-2">
             <div>
-              <p>What type of project was this selftape for?</p>
-            </div>
-          </div>
-          <form className="w-full max-w-sm container" onSubmit={handleSubmit}>
-            <div className="md:flex md:items-center mb-6 gap-2">
+              <h2 className="text-xl font-bold">Audition Tracker</h2>
               <div>
-                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                  Type
-                </label>
+                <p>What type of project was this selftape for?</p>
               </div>
-              <div>
-                <select
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="project-type-select"
-                  onChange={handleChange}
+            </div>
+            <form className="w-full max-w-sm container" onSubmit={handleSubmit}>
+              <div className="md:flex md:items-center mb-6 gap-2">
+                <div>
+                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Type
+                  </label>
+                </div>
+                <div>
+                  <select
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="project-type-select"
+                    onChange={handleChange}
+                  >
+                    {AUDITION_SELECT.map((value, index) => (
+                      <>
+                        <option value={value} key={index}>
+                          {value}
+                        </option>
+                      </>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  id="projectType-submit-btn"
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 >
-                  {AUDITION_SELECT.map((value, index) => (
-                    <>
-                      <option value={value} key={index}>
-                        {value}
-                      </option>
-                    </>
-                  ))}
-                </select>
+                  Track!
+                </button>
               </div>
-              <button
-                id="projectType-submit-btn"
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Track!
-              </button>
-            </div>
-          </form>
-          <span>
-            <p className="text-xs italic">
-              Don't worry, you can change this in the worksheet later.
-            </p>
-          </span>
+            </form>
+            <span>
+              <p className="text-xs italic">
+                Don't worry, you can change this in the worksheet later.
+              </p>
+            </span>
+          </div>
         </div>
       </div>
     </div>
