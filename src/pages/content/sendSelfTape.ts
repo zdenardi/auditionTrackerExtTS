@@ -2,17 +2,19 @@ import $ from "jquery";
 import { Audition } from "@src/types";
 import { LAST_UPDATED_FN } from "@src/constants";
 import { reqProjectType, sendAudition } from "./helperFunctions";
-import { sendAuditionToSpreadsheet } from "../background/googleapi";
 
 const mainDiv = $("#mainContent");
 const button = $("<button>").text("Test Button").attr("id", "test-button");
+const submitForm = $("form#credit_card_info");
+
 if ($("#test-button").length != 1) {
   mainDiv.append(button);
 }
 
 //Todo - Need to change to actual button that we're listening to, and
 // dont forget to e.preventDefault! Remember to call the submit button at the end of the next function
-$("#test-button").on("click", async () => {
+$("#test-button").one("click", async (e) => {
+  e.preventDefault();
   reqProjectType();
 });
 

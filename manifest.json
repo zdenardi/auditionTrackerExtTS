@@ -37,7 +37,9 @@
       "js": ["./src/pages/content/sendToGoogleSheets.ts"]
     },
     {
-      "matches": ["*://*.actorsaccess.com/virtualaudition/*"],
+      "matches": [
+        "*://*.actorsaccess.com/virtualaudition/index.cfm?action=checkout&vaaid=*"
+      ],
       "js": ["./src/pages/content/sendSelfTape.ts"]
     }
   ],
