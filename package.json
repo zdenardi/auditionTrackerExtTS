@@ -25,6 +25,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jquery": "^3.7.1",
     "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",
     "webextension-polyfill": "^0.12.0"
   },

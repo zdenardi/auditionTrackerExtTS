@@ -18,6 +18,7 @@ export const Dashboard = () => {
       });
     }
   }, [auditions]);
+  console.log(auditions);
 
   return (
     <>
