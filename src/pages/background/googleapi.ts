@@ -68,19 +68,27 @@ export async function sendAuditionToSpreadsheet(
       "Status",
       "Submitter",
       "Source",
+      "Photo",
       "Last Updated",
     ];
     await workingSpreadsheet.loadInfo();
     const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
     await auditionsSheet.loadHeaderRow();
 
-    const sheetHeaders = auditionsSheet.headerValues;
-    if (auditionsSheet.headerValues != headerRow) {
-      await auditionsSheet.setHeaderRow(headerRow);
-    } else {
-      console.log("Header Already Set!");
-    }
-    await auditionsSheet.addRow(arrayOfValues);
+    // await auditionsSheet.addRow(arrayOfValues);
+    await auditionsSheet.addRow({
+      orderNo: audition.orderNo,
+      Date: audition.submittedDate,
+      Role: audition.role,
+      "Project Name": audition.projectName,
+      "Casting Director": audition.castingDirector,
+      "Project Type": audition.projectType,
+      Status: audition.status,
+      Submitter: audition.submitter,
+      Source: audition.source,
+      Photo: audition.submittedPhoto || "Unable to get Photo!",
+      "Last Updated": audition.lastUpdated,
+    });
     const message: ICommandReq = {
       category: "toast",
       type: "success", // This will probably be something different? Not sure what yet

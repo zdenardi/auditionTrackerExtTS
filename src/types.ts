@@ -10,6 +10,7 @@ export interface Audition {
   projectType: string;
   status: string;
   lastUpdated: string;
+  submittedPhoto?: string;
 }
 export interface AABrowserReq {
   audition: Audition;
