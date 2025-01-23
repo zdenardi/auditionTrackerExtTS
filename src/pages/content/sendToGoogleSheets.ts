@@ -8,7 +8,7 @@ import {
 import { LAST_UPDATED_FN, PHOTO_FN } from "@src/constants";
 import { Audition } from "@src/types";
 
-const TEST = true;
+const TEST = false;
 const AA_MAIN_URL = "https://actorsaccess.com";
 const projectURL = AA_MAIN_URL + $(".cart_role_breakdown").attr("href");
 const breakdownCell = $(".roleItem").html();
@@ -25,10 +25,10 @@ if (TEST) {
 }
 
 submitButton.html("Submit <span class=underline-text> and Track </span");
-$("#test-button").on("click", async (e) => {
-  // submitForm.one("submit", async (e) => {
-  console.log("Testing");
+// $("#test-button").on("click", async (e) => {
+// console.log("Testing");
 
+submitForm.one("submit", async (e) => {
   e.preventDefault();
   const itemContainers = $(".asset_group").toArray();
   itemContainers.forEach(async (container) => {
