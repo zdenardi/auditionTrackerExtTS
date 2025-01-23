@@ -75,12 +75,6 @@ export async function sendAuditionToSpreadsheet(
     const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
     await auditionsSheet.loadHeaderRow();
 
-    const sheetHeaders = auditionsSheet.headerValues;
-    if (auditionsSheet.headerValues != headerRow) {
-      await auditionsSheet.setHeaderRow(headerRow);
-    } else {
-      console.log("Header Already Set!");
-    }
     // await auditionsSheet.addRow(arrayOfValues);
     await auditionsSheet.addRow({
       orderNo: audition.orderNo,
