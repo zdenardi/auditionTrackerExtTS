@@ -56,7 +56,6 @@ submitForm.one("submit", async (e) => {
     const photoSRC = $(photoHTML)
       .find("div.grid-item-selected img")
       .attr("src");
-    console.log(photoSRC);
     const req = $.get(projectURL, (html) => {
       const leftTable = $(html).find(
         "table.text:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > p",

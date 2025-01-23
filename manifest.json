@@ -21,7 +21,14 @@
     "service_worker": "./src/pages/background/index.ts",
     "scripts": ["./src/pages/background/index.ts"]
   },
-  "permissions": ["activeTab", "webRequest", "identity", "notifications"],
+  "permissions": [
+    "activeTab",
+    "webRequest",
+    "identity",
+    "notifications",
+    "webRequestBlocking",
+    "webRequestFilterResponse"
+  ],
   "content_scripts": [
     {
       "matches": ["*://actorsaccess.com/*"],
@@ -42,6 +49,10 @@
     {
       "matches": ["*://*.actorsaccess.com/virtualaudition/*"],
       "js": ["./src/pages/content/sendSelfTape.ts"]
+    },
+    {
+      "matches": ["*://*.castingnetworks.com/talent/media-request/*"],
+      "js": ["./src/pages/content/CN_scrapeAudition.ts"]
     }
   ],
   "devtools_page": "src/pages/devtools/index.html",
