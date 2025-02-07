@@ -11,6 +11,7 @@ $(async () => {
   async function handleResponse(message: { data: { token: string } }) {
     const token = message.data.token;
     const workingSpreadsheet = await getWorkingSheet(token);
+    const breakdownId = $('input[name="breakdown_id"]').val();
 
     await workingSpreadsheet.loadInfo();
     const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
@@ -23,13 +24,15 @@ $(async () => {
       const source = row.get("Source");
       if (siteId) {
         if (
-          siteId === "842808" &&
+          siteId === breakdownId &&
           role === "VICTOR" &&
           source === "Actors Access"
         ) {
           tracked = true;
           sheetRow = row;
           $("#tracked-status").show();
+        } else {
+          $("#tracked-status").hide();
         }
       }
       // TODO: Need to do a check if siteID isn't a thing
@@ -44,9 +47,8 @@ $(async () => {
     type: "data",
     category: "token",
   };
-  const sending = browser.runtime.sendMessage(message);
-  console.log("Running");
-  sending.then(handleResponse, handleError);
+  const getToken = browser.runtime.sendMessage(message);
+  getToken.then(handleResponse, handleError);
 
   const mainDiv = $("#mainContent");
   const button = $("<button>").text("Test Button").attr("id", "test-button");
@@ -86,6 +88,7 @@ $(async () => {
       )
         .text()
         .trim();
+
       const audition: Audition = {
         orderNo: "1",
         submittedDate: new Date().toLocaleDateString(),
@@ -93,6 +96,7 @@ $(async () => {
         castingDirector: casting,
         projectType: "Unknown",
         status: "Auditioned",
+        projectName,
         lastUpdated: LAST_UPDATED_FN,
         source: "Actor's Access",
         submitter: "Self",
