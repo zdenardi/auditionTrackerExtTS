@@ -23,9 +23,16 @@ export interface IFoundFile {
 export interface ICommandReq {
   type: string;
   category: string;
-  success: boolean;
 }
 
-export interface IDataSend extends ICommandReq {
+export interface IAuditionSend extends ICommandReq {
   data: Audition;
+}
+
+export interface ISheetReq extends ICommandReq {
+  data: { id: string };
+}
+
+export interface ITokenReq extends ICommandReq {
+  data: { token: string };
 }

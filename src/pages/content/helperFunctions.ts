@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { Audition, IDataSend } from "@src/types";
+import { Audition, IAuditionSend, ICommandReq, ISheetReq } from "@src/types";
 import browser from "webextension-polyfill";
 
 export function getPersonFromHTML(html: string, word: string): string {
@@ -32,11 +32,19 @@ export function parseEntryFromHtml(
 }
 
 export async function sendAudition(audition: Audition) {
-  const message: IDataSend = {
+  const message: IAuditionSend = {
     type: "data",
     category: "audition",
-    success: true,
     data: audition,
+  };
+  browser.runtime.sendMessage(message);
+}
+
+export async function getWorkingSheetReq(id: string) {
+  const message: ISheetReq = {
+    type: "request",
+    category: "spreadsheet",
+    data: { id },
   };
   browser.runtime.sendMessage(message);
 }

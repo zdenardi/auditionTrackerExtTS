@@ -1,6 +1,17 @@
 import browser from "webextension-polyfill";
+import { TOKEN_NAME } from "@src/constants";
 
 const VALIDATION_BASE_URL = "https://www.googleapis.com/oauth2/v2/tokeninfo";
+const CLIENT_ID =
+  "635620722112-iokrike3aui2lacke3ncoulooforlm81.apps.googleusercontent.com";
+const SPREADSHEETS_URL =
+  "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.readonly";
+const REDIRECT_URL = browser.identity.getRedirectURL();
+const AUTH_URL = `https://accounts.google.com/o/oauth2/auth\
+?client_id=${CLIENT_ID}\
+&response_type=token\
+&redirect_uri=${encodeURIComponent(REDIRECT_URL)}\
+&scope=${SPREADSHEETS_URL}`;
 
 /**
 Authenticate and authorize using browser.identity.launchWebAuthFlow().
@@ -46,4 +57,10 @@ export function validate(redirectURL: string) {
     });
   }
   return fetch(validationRequest).then(checkResponse);
+}
+
+export async function setToken() {
+  getAccessToken(AUTH_URL).then((token) => {
+    localStorage.setItem(TOKEN_NAME, token as string);
+  });
 }

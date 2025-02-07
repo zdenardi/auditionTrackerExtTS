@@ -13,9 +13,7 @@ export const SuccessToast = (props: ToastProps) => {
     sendResponse: (message: unknown) => void,
   ) {
     const customRequest = request as ICommandReq;
-    console.log(request);
-    if (customRequest.category === "toast" && customRequest.success)
-      setShow(true);
+    if (customRequest.category === "toast") setShow(true);
     setInterval(() => {
       setShow(false);
     }, 3000);

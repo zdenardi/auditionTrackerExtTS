@@ -13,3 +13,7 @@ export const AUDITION_SELECT = [
   "Commercial",
   "Web Series",
 ];
+
+export const TOKEN_NAME = "auditionTrackerGToken";
+export const SHEET_NAME = "***Audition Tracker***";
+export const TEMPLATE_ID = "1C-lv_NFOQZ0BQnTvrBqhpCZaDDUZg_8I9zmI_e8DbYk";

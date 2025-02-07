@@ -27,7 +27,8 @@
     "identity",
     "notifications",
     "webRequestBlocking",
-    "webRequestFilterResponse"
+    "webRequestFilterResponse",
+    "localStorage"
   ],
   "content_scripts": [
     {
