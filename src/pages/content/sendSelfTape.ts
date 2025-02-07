@@ -16,23 +16,41 @@ $(async () => {
     await workingSpreadsheet.loadInfo();
     const auditionsSheet = workingSpreadsheet.sheetsByTitle["Auditions"];
     const rows = await auditionsSheet.getRows();
+    console.log(rows)
     rows.forEach((row) => {
-      const role = row.get("Role");
-      const siteId = row.get("siteId");
-      const projectName = row.get("Project Name");
-      const casting = row.get("Casting Director");
-      const source = row.get("Source");
-      if (siteId) {
+      const rowRole = row.get("Role");
+      const rowSiteId = row.get("siteId");
+      const rowProjectName = row.get("Project Name");
+      const rowCasting = row.get("Casting Director");
+      const rowSource = row.get("Source");
+
+      const breakdownProjectName = $(
+        ".details > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)",
+      )
+      const breakdownProject = $('td.label:contains("Breakdown Title")')
+        .next()
+        .text()
+        .trim();
+      const breakdownRole =
+        $(
+          ".details > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(6) > td:nth-child(2)",
+        )
+          .text()
+          .trim();
+
+      console.log(breakdownRole)
+
+      if (rowSiteId) {
         if (
-          siteId === breakdownId &&
-          role === "VICTOR" &&
-          source === "Actors Access"
+          rowSiteId === breakdownId &&
+          rowRole === breakdownRole &&
+          rowSource === "Actors Access"
         ) {
           tracked = true;
           sheetRow = row;
           $("#tracked-status").show();
         } else {
-          $("#tracked-status").hide();
+          $("#tracked-status").text('This is not being tracked');
         }
       }
       // TODO: Need to do a check if siteID isn't a thing
