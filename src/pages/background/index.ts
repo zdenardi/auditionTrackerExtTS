@@ -21,8 +21,6 @@ function messageHandler(
   }
 }
 
-if (localStorage.getItem(TOKEN_NAME) === null) {
-  setToken();
-}
+setToken();
 
 browser.runtime.onMessage.addListener(messageHandler);
